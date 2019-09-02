@@ -3,27 +3,36 @@ package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
 
 @TeleOp(name = "Mechanum Drive Teleop", group = "Teleop")
 public class MechanumDriveTeleop extends OpMode {
-    private final GamepadWrapper joy1 = new GamepadWrapper();
-    private final GamepadWrapper joy2 = new GamepadWrapper();
-
-    private final DcMotor frontLeft = hardwareMap.dcMotor.get("Front Left");
-    private final DcMotor frontRight = hardwareMap.dcMotor.get("Front Right");
-    private final DcMotor backLeft = hardwareMap.dcMotor.get("Back Left");
-    private final DcMotor backRight = hardwareMap.dcMotor.get("Back Right");
-
     private static final float CLOCKWISE_TURNING_SENSITIVITY = 0.5f;
+
+    private GamepadWrapper joy1;
+    private GamepadWrapper joy2;
+
+    private DcMotor frontLeft;
+    private DcMotor frontRight;
+    private DcMotor backLeft;
+    private DcMotor backRight;
 
     @Override
     public void init() {
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        joy1 = new GamepadWrapper();
+        joy2 = new GamepadWrapper();
+
+        frontLeft = hardwareMap.get(DcMotor.class, "Front Left");
+        frontRight = hardwareMap.get(DcMotor.class, "Front Right");
+        backLeft = hardwareMap.get(DcMotor.class, "Back Left");
+        backRight = hardwareMap.get(DcMotor.class, "Back Right");
+
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
