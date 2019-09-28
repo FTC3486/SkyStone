@@ -38,7 +38,7 @@ public class RoverTeleop extends OpMode {
         //Toggle Half Speed on the drivetrain
         if (joy1.toggle.right_stick_button) {
             //Swap front and back of the robot, and control the drive train at half speed
-            teleopDriver.setMaxSpeed(0.5);
+            teleopDriver.setMaxSpeed(0.6f);
             if (joy1.toggle.left_stick_button) {
                 teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.BACKWARD);
             } else {
@@ -46,7 +46,7 @@ public class RoverTeleop extends OpMode {
             }
         } else {
             //Swap front and back of the robot, and control the drive train
-            teleopDriver.setMaxSpeed(.9);
+            teleopDriver.setMaxSpeed(.4f);
             if (joy1.toggle.left_stick_button) {
                 teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.BACKWARD);
             } else {

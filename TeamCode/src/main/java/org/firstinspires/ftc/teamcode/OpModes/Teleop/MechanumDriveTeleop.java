@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
 
 @TeleOp(name = "Mechanum Drive Teleop", group = "Teleop")
 public class MechanumDriveTeleop extends OpMode {
-    private static final float CLOCKWISE_TURNING_SENSITIVITY = 0.5f;
+    private static final float CLOCKWISE_TURNING_SENSITIVITY = 0.75f;
 
     private GamepadWrapper joy1;
     private GamepadWrapper joy2;
@@ -73,9 +73,9 @@ public class MechanumDriveTeleop extends OpMode {
         }
 
         // Send power to wheels
-        frontLeft.setPower(frontLeftSpeed);
-        frontRight.setPower(frontRightSpeed);
-        backLeft.setPower(backLeftSpeed);
-        backRight.setPower(backRightSpeed);
+        frontLeft.setPower(frontLeftSpeed * 0.8);
+        frontRight.setPower(frontRightSpeed * 0.8);
+        backLeft.setPower(backLeftSpeed * 0.8);
+        backRight.setPower(backRightSpeed * 0.8);
     }
 }
