@@ -91,11 +91,15 @@ public abstract class VuforiaDriver implements AutoCloseable {
 
 //        return robotPoseData.get(robotPoseData.size()-1).robotPose.matrix;
 
+        final float scalingFactor = 0.8F;
+        final float geometricSumReciprocal = (float)
+                ((1 - scalingFactor) / (1 - Math.pow(scalingFactor, robotPoseData.size())));
+
         return robotPoseData.stream()
                 .map(pose -> pose.robotPose.matrix)
                 .reduce((pose1, pose2) -> new OpenGLMatrix(pose1.scaled(0.8F).added(pose2)))
                 .get()
-                .scaled(1F / robotPoseData.size());
+                .scaled(geometricSumReciprocal);
     }
 
     /**
