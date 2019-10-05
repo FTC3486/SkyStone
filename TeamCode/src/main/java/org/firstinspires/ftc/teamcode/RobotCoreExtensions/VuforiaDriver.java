@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.RobotCoreExtensions;
 
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -10,12 +12,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaBase;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
+import java.text.DateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class VuforiaDriver implements AutoCloseable {
+public class VuforiaDriver implements AutoCloseable {
     private final VuforiaBase vuforia;
     private final List<String> trackableNames;
     private final String vuforiaLicenseKey;
@@ -72,16 +79,25 @@ public abstract class VuforiaDriver implements AutoCloseable {
      * 1. Visible markers will have more accurate readings than markers no longer visible.
      * 2. The closer a marker is to the robot, the more accurate its reading will be.
      *
-     * @return The position of the robot
+     * @return The location of the robot (position and orientation)
      */
-    public OpenGLMatrix getRobotPosition() throws PositionCalculationException {
-        final List<RobotPoseAndAssociatedMarker> robotPoseData = trackableNames.stream()
-                .map(name -> new RobotPoseAndAssociatedMarker(vuforia.track(name), vuforia.trackPose(name)))
-                .filter(pose -> pose.robotPose.isUpdatedRobotLocation)
-                .sorted(Comparator.comparing(pose -> pose.markerPose.matrix.getTranslation().magnitude()))
-                .sorted(Comparator.comparing(pose -> pose.robotPose.isVisible))
-                .sorted(Collections.reverseOrder())
-                .collect(Collectors.toList());
+    public RobotLocation getRobotPosition() throws PositionCalculationException {
+//            if (robotPoseAndAssociatedMarker.robotPose.isUpdatedRobotLocation) {
+        List<RobotPoseAndAssociatedMarker> robotPoseData = new ArrayList<>();
+        for (String name : trackableNames) {
+            RobotPoseAndAssociatedMarker robotPoseAndAssociatedMarker = new RobotPoseAndAssociatedMarker(vuforia.track(name), vuforia.trackPose(name));
+            if (robotPoseAndAssociatedMarker.robotPose.matrix != null && robotPoseAndAssociatedMarker.markerPose.matrix != null) {
+                robotPoseData.add(robotPoseAndAssociatedMarker);
+            }
+        }
+
+        Collections.sort(robotPoseData, (o1, o2) -> Float.compare(
+                o1.markerPose.matrix.getTranslation().magnitude(),
+                o2.markerPose.matrix.getTranslation().magnitude()));
+        Collections.sort(robotPoseData, (o1, o2) -> Boolean.compare(
+                o1.robotPose.isVisible,
+                o2.robotPose.isVisible));
+        Collections.reverse(robotPoseData);
 
         if (robotPoseData.isEmpty()) {
             throw new PositionCalculationException("After filtering for robot poses with " +
@@ -95,11 +111,56 @@ public abstract class VuforiaDriver implements AutoCloseable {
         final float geometricSumReciprocal = (float)
                 ((1 - scalingFactor) / (1 - Math.pow(scalingFactor, robotPoseData.size())));
 
-        return robotPoseData.stream()
-                .map(pose -> pose.robotPose.matrix)
-                .reduce((pose1, pose2) -> new OpenGLMatrix(pose1.scaled(0.8F).added(pose2)))
-                .get()
-                .scaled(geometricSumReciprocal);
+        boolean seen = false;
+        OpenGLMatrix acc = null;
+        for (RobotPoseAndAssociatedMarker pose : robotPoseData) {
+            OpenGLMatrix matrix = pose.robotPose.matrix;
+            if (!seen) {
+                seen = true;
+                acc = matrix;
+            } else {
+                acc = new OpenGLMatrix(acc.scaled(0.8F).added(matrix));
+            }
+        }
+
+        if (acc == null) {
+            throw new PositionCalculationException("After performing a weighted average, there " +
+                    "were no poses available from which a position could be calculated");
+        }
+
+
+        final VectorF positionVector = acc.scaled(geometricSumReciprocal).getTranslation();
+        final Position position = new Position(DistanceUnit.MM, positionVector.get(0), positionVector.get(1), positionVector.get(2), 0);
+        final Orientation orientation = Orientation.getOrientation(acc, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+        return new RobotLocation(position, orientation);
+    }
+
+    public static class RobotLocation {
+        final Position position;
+        final Orientation orientation;
+
+        public RobotLocation(Position position, Orientation orientation) {
+            this.position = position;
+            this.orientation = orientation;
+        }
+
+        public Position getPosition() {
+            return position;
+        }
+
+        public Orientation getOrientation() {
+            return orientation;
+        }
+
+        @Override
+        public String toString() {
+            final String orientationString = String.format(Locale.getDefault(), "{%.0f %.0f %.0f}", this.orientation.firstAngle, this.orientation.secondAngle, this.orientation.thirdAngle);
+            return "RobotLocation{" +
+                    "position=" + position.toUnit(DistanceUnit.INCH) +
+                    ", orientation=" + orientationString +
+                    '}';
+        }
     }
 
     /**
