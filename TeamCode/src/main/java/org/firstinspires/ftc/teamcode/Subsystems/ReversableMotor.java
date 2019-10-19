@@ -63,10 +63,7 @@ public class ReversableMotor implements Initializable {
 
             default:
                 return "Unknown";
-
         }
-
-
     }
 
 }

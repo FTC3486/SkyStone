@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TeleopDriver;
 
+import static org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot.AngleServoPosition.*;
+
 /**
  * Created by 3486 on 7/15/2017.
  */
@@ -19,8 +21,6 @@ public class SkystoneTeleop extends OpMode {
     private GamepadWrapper joy1 = new GamepadWrapper();
     private GamepadWrapper joy2 = new GamepadWrapper();
     private TeleopDriver teleopDriver;
-    boolean middleManipulatorOpen = true;
-    boolean manipulatorOpen = true;
 
     @Override
     public void init() {
@@ -41,41 +41,35 @@ public class SkystoneTeleop extends OpMode {
 
         //Toggle Half Speed on the drivetrain
         if (joy1.toggle.right_stick_button) {
-            //Swap front and back of the robot, and control the drive train at half speed
+            // control the drive train at half speed
             teleopDriver.setMaxSpeed(1f);
-            if (joy1.toggle.left_stick_button) {
-                teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.BACKWARD);
-            } else {
-                teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.FORWARD);
-            }
         } else {
-            //Swap front and back of the robot, and control the drive train
+            // control the drive train
             teleopDriver.setMaxSpeed(.5f);
-            if (joy1.toggle.left_stick_button) {
-                teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.BACKWARD);
-            } else {
-                teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.FORWARD);
-            }
         }
+
+        driveBackwardsToggle(joy1.toggle.left_stick_button);
 
         //PICKUP Functions********************************************************
 
         //Pickup Release Servo
         if (gamepad1.a) {
-            skystoneRobot.releaseServo.opened1();
-        }  else if (gamepad1.b){
+            skystoneRobot.releaseServo.open();
+        } else if (gamepad1.b) {
             skystoneRobot.releaseServo.close();
+        }
 
         //Pickup Motor
         if (gamepad1.right_bumper) {
-                skystoneRobot.pickup1.run(.9);
-                skystoneRobot.pickup2.run(.9);
-            } else if (gamepad1.left_bumper) {
-                skystoneRobot.pickup1.reverse(-0.5);
-                skystoneRobot.pickup2.reverse(-0.5);
-            } else
-                skystoneRobot.pickup1.stop();
-                skystoneRobot.pickup2.stop();
+            skystoneRobot.pickup1.run(.9);
+            skystoneRobot.pickup2.run(.9);
+        } else if (gamepad1.left_bumper) {
+            skystoneRobot.pickup1.reverse(-0.5);
+            skystoneRobot.pickup2.reverse(-0.5);
+        } else {
+            skystoneRobot.pickup1.stop();
+            skystoneRobot.pickup2.stop();
+        }
 
         //ARM Functions**************************************************************
 
@@ -90,7 +84,7 @@ public class SkystoneTeleop extends OpMode {
         //Buttons for the arm up/down
         if (gamepad2.right_stick_y > joy2.getLeftStickThreshold()) {
             skystoneRobot.armVertical.reverse(gamepad2.right_stick_y);
-        }  else if (gamepad2.right_stick_y < -joy2.getLeftStickThreshold()) {
+        } else if (gamepad2.right_stick_y < -joy2.getLeftStickThreshold()) {
             skystoneRobot.armVertical.run(gamepad2.right_stick_y);
         } else {
             skystoneRobot.armVertical.stop();
@@ -98,88 +92,49 @@ public class SkystoneTeleop extends OpMode {
         //Manipulator Functions **********************************************
 
         //Buttons for the Stone angle servo
-            // Has 4 positions
+        // Has 4 positions
 
         if (gamepad2.x) {
-            skystoneRobot.angleServo.opened1();
-        }  else if (gamepad2.y){
-            skystoneRobot.angleServo.opened2();
-        }  else if (gamepad2.b){
-            skystoneRobot.angleServo.opened3();
-        }  else if (gamepad2.a){
-            skystoneRobot.angleServo.opened4();
+            skystoneRobot.angleServo.setPosition(POSITION_1);
+        } else if (gamepad2.y) {
+            skystoneRobot.angleServo.setPosition(POSITION_2);
+        } else if (gamepad2.b) {
+            skystoneRobot.angleServo.setPosition(POSITION_3);
+        } else if (gamepad2.a) {
+            skystoneRobot.angleServo.setPosition(POSITION_4);
         }
+
         //2nd joint 180 - rotates stone from in the armVertical to out - middleManipulatorServo
-        if (gamepad2.left_bumper && middleManipulatorOpen) {
-                skystoneRobot.middleManipulatorServo.opened1();
-            middleManipulatorOpen = !middleManipulatorOpen;
-        }  else {
+        if (joy2.toggle.left_bumper) {
+            skystoneRobot.middleManipulatorServo.open();
+        } else {
             skystoneRobot.middleManipulatorServo.close();
-            middleManipulatorOpen = !middleManipulatorOpen;
         }
+        
         //Manipulator/grabber servo
-        if (gamepad2.right_bumper && manipulatorOpen) {
-            skystoneRobot.manipulatorServo.opened1();
-            manipulatorOpen = !manipulatorOpen;
-        }  else {
+        if (joy2.toggle.right_bumper) {
+            skystoneRobot.manipulatorServo.open();
+        } else {
             skystoneRobot.manipulatorServo.close();
-            manipulatorOpen = !manipulatorOpen;
         }
 
         //Capstone
         if (gamepad1.x) {
-            skystoneRobot.capstoneServo.opened1();
+            skystoneRobot.capstoneServo.open();
         } else {
             skystoneRobot.capstoneServo.close();
         }
 
-         //Skystone**********************************************
+        //Skystone**********************************************
 
-         //Skystone server
+        //Skystone server
+    }
 
-
-
-
-        }
-        // old unused code
-        /*
-        //Buttons for the flapper motor-
-        if (gamepad2.right_bumper) {
-            skystoneRobot.flapperMotor.run();
-        } else if (gamepad2.left_bumper) {
-            skystoneRobot.flapperMotor.reverse(-0.5);
+    private void driveBackwardsToggle(boolean toggle) {
+        if (toggle) {
+            teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.BACKWARD);
         } else {
-            skystoneRobot.flapperMotor.stop();
+            teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.FORWARD);
         }
-         //Buttons for the flapper servo
-        if (Math.abs(gamepad2.right_stick_y) > joy2.getRightStickThreshold()) {
-            skystoneRobot.flapperServo.run(gamepad2.right_stick_y);
-        }
-
-
-
-        */
-        /*
-        Buttons for the latch
-        if (gamepad1.right_bumper) {
-            skystoneRobot.latch.manualExtend();
-        } else if (gamepad1.left_bumper) {
-            skystoneRobot.latch.manualRetract();
-        } else {
-            skystoneRobot.latch.manualStop();
-        }
-        */
-
-
-        // TODO: jewelColor should be private. Telemetry should be exposed through toString methods
-
-        //telemetry.addData("Is Not Pressed", skystoneRobot.touch1();
-
-        //telemetry.addData("Green Value", skystoneRobot.colorSensor.green());
-        //telemetry.addData("Blue Value", skystoneRobot.colorSensor.blue());
-        //telemetry.addData("Red Value", skystoneRobot.colorSensor.red());
-        //telemetry.addData("Flapper Servo", skystoneRobot.flapperServo);
-        //telemetry.update();
-
     }
 }
