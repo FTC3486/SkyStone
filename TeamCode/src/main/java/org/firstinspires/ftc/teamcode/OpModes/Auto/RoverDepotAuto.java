@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
-import com.qualcomm.hardware.ams.AMSColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.RobotConfiguration.RelicRecovery.RelicRecoveryRobot;
-import org.firstinspires.ftc.teamcode.RobotConfiguration.RoverRuckus.RoverRuckusRobot;
+import org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.EncoderAutoDriver;
 
 /*
@@ -22,7 +20,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.EncoderAutoDriver;
  *     - Drive motors with encoders
  *     - Two Range sensors
  *     - one color sensor
- *     -Jewel arm
+ *     -Jewel armVertical
  * *
  * Changelog:
  *     -Created by 3486 on 7/5/18.
@@ -35,24 +33,24 @@ public class RoverDepotAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        RoverRuckusRobot roverRuckusRobot = new RoverRuckusRobot(this.hardwareMap);
-        EncoderAutoDriver encoderAutoDriver = new EncoderAutoDriver(roverRuckusRobot, this);
+        SkystoneRobot skystoneRobot = new SkystoneRobot(this.hardwareMap);
+        EncoderAutoDriver encoderAutoDriver = new EncoderAutoDriver(skystoneRobot, this);
         //RangeAutoDriver rangeAutoDriver = new RangeAutoDriver(rover, this);
-        roverRuckusRobot.initialize();
+        skystoneRobot.initialize();
 
         waitForStart();
 
         encoderAutoDriver.setPower(1.0);
 
-        while(!roverRuckusRobot.latch.isFullyExtended())
+        while(!skystoneRobot.latch.isFullyExtended())
         {
-            roverRuckusRobot.latch.extend();
-            telemetry.addData("Latch state", roverRuckusRobot.latch.toString());
+            skystoneRobot.latch.extend();
+            telemetry.addData("Latch state", skystoneRobot.latch.toString());
             telemetry.update();
         }
 
         //This is copy and pasted from RoverDepotAuto.java, the original code is commented out
-        roverRuckusRobot.latch.manualStop();
+        skystoneRobot.latch.manualStop();
         encoderAutoDriver.setPower(0.75);
         //base number 25
         encoderAutoDriver.driveLeftSideToDistance(-25);
@@ -63,27 +61,27 @@ public class RoverDepotAuto extends LinearOpMode {
         encoderAutoDriver.spinRight(0.4, -0.4);
 
         //Go to the end of the sampling items
-        roverRuckusRobot.getDrivetrain().resetMotorEncoders();
-        roverRuckusRobot.getDrivetrain().setPowers(0.3, 0.3);
-        while ((roverRuckusRobot.getDrivetrain().getLeftEncoderCount() <= 2700) && !roverRuckusRobot.foundYellowObject() && opModeIsActive())
-        {
-            //telemetry.addData("Green Value", roverRuckusRobot.colorSensor.green());
-            //telemetry.addData("Blue Value", roverRuckusRobot.colorSensor.blue());
-            //telemetry.addData("Red Value", roverRuckusRobot.colorSensor.red());
-            //telemetry.addData("LeftEncoder", roverRuckusRobot.getDrivetrain().getLeftEncoderCount());
+        skystoneRobot.getDrivetrain().resetMotorEncoders();
+        skystoneRobot.getDrivetrain().setPowers(0.3, 0.3);
+        //while ((skystoneRobot.getDrivetrain().getLeftEncoderCount() <= 2700) && !skystoneRobot.foundYellowObject() && opModeIsActive())
+       // {
+            //telemetry.addData("Green Value", skystoneRobot.colorSensor.green());
+            //telemetry.addData("Blue Value", skystoneRobot.colorSensor.blue());
+            //telemetry.addData("Red Value", skystoneRobot.colorSensor.red());
+            //telemetry.addData("LeftEncoder", skystoneRobot.getDrivetrain().getLeftEncoderCount());
             //telemetry.update();
-        }
-        double counts = roverRuckusRobot.getDrivetrain().getLeftEncoderCount();
-        roverRuckusRobot.getDrivetrain().haltDrive();
+       // }
+        double counts = skystoneRobot.getDrivetrain().getLeftEncoderCount();
+        skystoneRobot.getDrivetrain().haltDrive();
         encoderAutoDriver.spinLeft(-10,10);
         encoderAutoDriver.driveToDistance(-6);
         encoderAutoDriver.driveToDistance(6);
         encoderAutoDriver.spinRight(10, -10);
-        roverRuckusRobot.getDrivetrain().setPowers(0.5, 0.5);
-        while(roverRuckusRobot.getDrivetrain().getLeftEncoderCount() <= 4825 - counts && opModeIsActive()) {telemetry.addData("Encoder", roverRuckusRobot.getDrivetrain().getLeftEncoderCount());}
+        skystoneRobot.getDrivetrain().setPowers(0.5, 0.5);
+       // while(skystoneRobot.getDrivetrain().getLeftEncoderCount() <= 4825 - counts && opModeIsActive()) {telemetry.addData("Encoder", skystoneRobot.getDrivetrain().getLeftEncoderCount());}
         encoderAutoDriver.spinLeft(-7.7, 7.7);
         encoderAutoDriver.driveToDistance(-50);
-        roverRuckusRobot.markerServo.open();
+        //skystoneRobot.markerServo.open();
         encoderAutoDriver.driveToDistance(1.0);
     }
 }
