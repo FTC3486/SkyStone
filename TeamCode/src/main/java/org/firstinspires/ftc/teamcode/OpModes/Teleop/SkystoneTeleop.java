@@ -13,7 +13,7 @@ import static org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.Skyston
  * Created by 3486 on 7/15/2017.
  */
 
-@TeleOp(name = "Rover Teleop", group = "Teleop2018")
+@TeleOp(name = "Skystone Teleop", group = "Teleop2018")
 public class SkystoneTeleop extends OpMode {
     //Declare parts of the robot that will be used by this Teleop
     private SkystoneRobot skystoneRobot;
@@ -63,10 +63,10 @@ public class SkystoneTeleop extends OpMode {
         if (gamepad1.right_bumper) {
             skystoneRobot.pickup1.run(.9);
             skystoneRobot.pickup2.run(.9);
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad1.start) {
             skystoneRobot.pickup1.reverse(-0.5);
             skystoneRobot.pickup2.reverse(-0.5);
-        } else {
+        } else if (gamepad1.left_bumper) {
             skystoneRobot.pickup1.stop();
             skystoneRobot.pickup2.stop();
         }
@@ -110,7 +110,7 @@ public class SkystoneTeleop extends OpMode {
         } else {
             skystoneRobot.middleManipulatorServo.close();
         }
-        
+
         //Manipulator/grabber servo
         if (joy2.toggle.right_bumper) {
             skystoneRobot.manipulatorServo.open();
