@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.RobotCoreExtensions.ContinuousServo;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.Drivable;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.Drivetrain;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.Initializable;
@@ -27,12 +28,11 @@ public class SkystoneRobot implements Drivable, Initializable {
     public final OpenCloseServo manipulatorServo;
     //Capstone servo
     public final OpenCloseServo capstoneServo;
-    //Stone grabber
-    public final OpenCloseServo grabberServo;
-    //ARM Hardware**************************
+    //Stab servo - The arm in the pickup that helps move a block inside
+    public final OpenCloseServo stabServo;
+    //Pickup helper servo
+    public final ContinuousServo helperServo;
 
-    //Arm motor for extending/retracting
-    //public final ReversableMotor armVertical;
 
 
     //PICKUP Hardware******************
@@ -44,8 +44,6 @@ public class SkystoneRobot implements Drivable, Initializable {
     public final ReversableMotor armVertical;
     public final ReversableMotor armHorizontal;
 
-    //Flapper servo for tilting
-    //public final SpeedServo flapperServo;
 
 
     // Sensors
@@ -58,14 +56,14 @@ public class SkystoneRobot implements Drivable, Initializable {
 
     public SkystoneRobot(HardwareMap hardwareMap) {
         // Drivetrain
-        final DcMotor left1 = hardwareMap.dcMotor.get("left1");
-        final DcMotor left2 = hardwareMap.dcMotor.get("left2");
-        final DcMotor right1 = hardwareMap.dcMotor.get("right1");
-        final DcMotor right2 = hardwareMap.dcMotor.get("right2");
-        left1.setDirection(DcMotor.Direction.FORWARD);
-        left2.setDirection(DcMotor.Direction.FORWARD);
-        right1.setDirection(DcMotor.Direction.REVERSE);
-        right2.setDirection(DcMotor.Direction.REVERSE);
+        final DcMotor left1 = hardwareMap.dcMotor.get("right1");
+        final DcMotor left2 = hardwareMap.dcMotor.get("right2");
+        final DcMotor right1 = hardwareMap.dcMotor.get("left1");
+        final DcMotor right2 = hardwareMap.dcMotor.get("left2");
+        left1.setDirection(DcMotor.Direction.REVERSE);
+        left2.setDirection(DcMotor.Direction.REVERSE);
+        right1.setDirection(DcMotor.Direction.FORWARD);
+        right2.setDirection(DcMotor.Direction.FORWARD);
         this.drivetrain = new Drivetrain.Builder()
                 .addLeftMotor(left1)
                 .addLeftMotorWithEncoder(left2)
@@ -76,18 +74,18 @@ public class SkystoneRobot implements Drivable, Initializable {
         //Pickup****************************************************************
         //Pickup Release Servo
         final Servo releaseServo = hardwareMap.servo.get("releaseServo");
-        this.releaseServo = new OpenCloseServo(releaseServo, 0.1, .9, 0.0);
+        this.releaseServo = new OpenCloseServo(releaseServo, 0.01, .9, 0.01);
 
         //Capstone Servo
         final Servo capstoneServo = hardwareMap.servo.get("capstoneServo");
-        this.capstoneServo = new OpenCloseServo(capstoneServo, .1, .9, .3);
+        this.capstoneServo = new OpenCloseServo(capstoneServo, .01, .99, .01);
         //Pickup Motors
         final DcMotor pickup1 = hardwareMap.dcMotor.get("pickup1");
         this.pickup1 = new ReversableMotor(pickup1, 1);
         final DcMotor pickup2 = hardwareMap.dcMotor.get("pickup2");
         this.pickup2 = new ReversableMotor(pickup2, 1);
-        //pickupMotor1.setDirection(DcMotor.Direction.FORWARD);
-        // pickupMotor2.setDirection(DcMotor.Direction.REVERSE);
+        pickup1.setDirection(DcMotor.Direction.FORWARD);
+        pickup2.setDirection(DcMotor.Direction.REVERSE);
 
         //ARM*******************************************************************
         final DcMotor armVertical = hardwareMap.dcMotor.get("armVertical");
@@ -95,29 +93,13 @@ public class SkystoneRobot implements Drivable, Initializable {
 
         final DcMotor armHorizontal = hardwareMap.dcMotor.get("armHorizontal");
         this.armHorizontal = new ReversableMotor(armHorizontal, 1);
-        // Latch
-/*
-        final DcMotor latchMotor = hardwareMap.dcMotor.get("latch");
-        final DcMotor latchMotor2 = hardwareMap.dcMotor.get("latch2");
-        final DigitalChannel latchTop = hardwareMap.digitalChannel.get("latchTop");
-        final DigitalChannel latchBottom = hardwareMap.digitalChannel.get("latchBottom");
-        this.latch = new Latch(latchMotor,latchMotor2, latchTop, latchBottom,-1.00, 1.00);
 
-        //Flapper motor
-        final DcMotor flapperMotor = hardwareMap.dcMotor.get("flapper");
-        this.flapperMotor = new ReversableMotor(flapperMotor, 1);
-        //Flapper servo
-        final Servo flapperServo = hardwareMap.servo.get("flapperServo");
-        this.flapperServo = new SpeedServo(flapperServo, 1.0, 0.01);*/
 
         //Manipulator Hardware**********************
-        //Stone Grabber
-        final Servo grabberServo = hardwareMap.servo.get("grabberServo");
-        this.grabberServo = new OpenCloseServo(grabberServo, .1, .9, .2);
 
         //2nd joint 180
         final Servo middleManipulatorServo = hardwareMap.servo.get("middleManipulatorServo");
-        this.middleManipulatorServo = new OpenCloseServo(middleManipulatorServo, 0.1, .9, 0.0);
+        this.middleManipulatorServo = new OpenCloseServo(middleManipulatorServo, 0.2, .85, 0.2);
 
         //Stone angle servo
         final Servo angleServo = hardwareMap.servo.get("angleServo");
@@ -125,45 +107,48 @@ public class SkystoneRobot implements Drivable, Initializable {
 
         //Manipulator servo
         final Servo manipulatorServo = hardwareMap.servo.get("manipulatorServo");
-        this.manipulatorServo = new OpenCloseServo(manipulatorServo, .1, .9, .1);
+        this.manipulatorServo = new OpenCloseServo(manipulatorServo, .4, .4, .95);
+        //Stab servo
+        final Servo stabServo = hardwareMap.servo.get("stabServo");
+        this.stabServo = new OpenCloseServo(stabServo, .4, .25, .4);
+        //Helper servo
+        final Servo helperServo = hardwareMap.servo.get("helperServo");
+        this.helperServo = new ContinuousServo(helperServo);
         //Color sensor
         //this.colorSensor = hardwareMap.colorSensor.get("colorSensor");*/
     }
 
     @Override
     public void initialize() {
-        //latch.initialize();
-        //flapperServo.initialize();
-        //markerServo.initialize();
-    }
+        middleManipulatorServo.initialize();
+        angleServo.setPosition(AngleServoPosition.POSITION_1);
+        manipulatorServo.initialize();
+        releaseServo.initialize();
+        capstoneServo.initialize();
+        stabServo.initialize();
+    };
 
     @Override
     public Drivetrain getDrivetrain() {
         return this.drivetrain;
-    }
-
-    /*public boolean foundYellowObject(){
-        //Base number 5
-        return ((colorSensor.red() >= colorSensor.blue() + 10) && (colorSensor.green() >= colorSensor.blue() && colorSensor.green() <= colorSensor.red()));
-    }*/
-
+    };
 
     public enum AngleServoPosition implements DiscreteServo.DiscreteServoPosition {
-        POSITION_1(0.1),
-        POSITION_2(0.2),
-        POSITION_3(0.2),
-        POSITION_4(0.2);
+        POSITION_1(0.825),
+        POSITION_2(0.8),
+        POSITION_3(0.785),
+        POSITION_4(0.75);
 
         private final double position;
 
         AngleServoPosition(double position) {
             this.position = position;
-        }
+        };
 
         @Override
         public double getPosition() {
             return position;
-        }
+        };
     }
-}
+};
 

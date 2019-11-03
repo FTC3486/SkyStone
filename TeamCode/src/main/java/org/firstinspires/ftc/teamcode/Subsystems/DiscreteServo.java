@@ -43,7 +43,7 @@ public class DiscreteServo<D extends DiscreteServo.DiscreteServoPosition> implem
     }
 
     public void setPosition(D position) {
-        final D newPosition = servoPositions.get(position);
+        final D newPosition = servoPositions.get(position.name());
         servo.setPosition(newPosition.getPosition());
         this.discreteServoPosition = newPosition;
     }
