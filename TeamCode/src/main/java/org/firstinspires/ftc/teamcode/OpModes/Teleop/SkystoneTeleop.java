@@ -7,7 +7,6 @@ import org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TeleopDriver;
 
-import static org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot.AngleServoPosition.*;
 
 /**
  * Created by 3486 on 10/10/2019.
@@ -17,7 +16,7 @@ import static org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.Skyston
 public class SkystoneTeleop extends OpMode {
     //Declare parts of the robot that will be used by this Teleop
     private SkystoneRobot skystoneRobot;
-    //
+    //Create joysticks
     private GamepadWrapper joy1 = new GamepadWrapper();
     private GamepadWrapper joy2 = new GamepadWrapper();
     private TeleopDriver teleopDriver;
@@ -45,13 +44,12 @@ public class SkystoneTeleop extends OpMode {
             teleopDriver.setMaxSpeed(1f);
         } else {
             // control the drive train
-            teleopDriver.setMaxSpeed(.5f);
+            teleopDriver.setMaxSpeed(1f);
         }
 
         driveBackwardsToggle(joy1.toggle.left_stick_button);
 
         //PICKUP Functions********************************************************
-
         //Pickup Release Servo
         if (gamepad1.a) {
             skystoneRobot.releaseServo.open();
@@ -63,43 +61,30 @@ public class SkystoneTeleop extends OpMode {
         if (gamepad1.right_bumper) {
             skystoneRobot.pickup1.run(.99);
             skystoneRobot.pickup2.run(.99);
-            skystoneRobot.helperServo.setPower(.9);
         } else if (gamepad1.y) {
             skystoneRobot.pickup1.reverse(-0.99);
             skystoneRobot.pickup2.reverse(-0.99);
-            //skystoneRobot.helperServo.setPower(-1);
         } else if (gamepad1.left_bumper) {
             skystoneRobot.pickup1.stop();
             skystoneRobot.pickup2.stop();
-            skystoneRobot.helperServo.setPower(0);
         }
 
         //ARM Functions**************************************************************
 
-        //Buttons for the arm extension/retraction
-        if (gamepad2.left_stick_y > joy2.getLeftStickThreshold()) {
-            skystoneRobot.armHorizontal.reverse(gamepad2.left_stick_y);
-        } else if (gamepad2.left_stick_y < -joy2.getLeftStickThreshold()) {
-            skystoneRobot.armHorizontal.run(gamepad2.left_stick_y);
-        } else {
-            skystoneRobot.armHorizontal.stop();
-        }
         //Buttons for the arm up/down
         if (gamepad2.right_stick_y > joy2.getLeftStickThreshold()) {
-            skystoneRobot.armVertical.reverse(gamepad2.right_stick_y / 1.5);
+            skystoneRobot.armVertical.reverse(gamepad2.right_stick_y / 1.3);
         } else if (gamepad2.right_stick_y < -joy2.getLeftStickThreshold()) {
-            skystoneRobot.armVertical.run(gamepad2.right_stick_y / 1.5);
+            skystoneRobot.armVertical.run(gamepad2.right_stick_y / 1.3);
         } else {
             skystoneRobot.armVertical.stop();
             //skystoneRobot.armVertical.reverse(.5);
-
         }
         //Manipulator Functions **********************************************
 
         //Buttons for the Stone angle servo
         // Has 4 positions
-
-        if (gamepad2.x) {
+        /*if (gamepad2.x) {
             skystoneRobot.angleServo.setPosition(POSITION_1);
         } else if (gamepad2.y) {
             skystoneRobot.angleServo.setPosition(POSITION_2);
@@ -107,7 +92,7 @@ public class SkystoneTeleop extends OpMode {
             skystoneRobot.angleServo.setPosition(POSITION_3);
         } else if (gamepad2.a) {
             skystoneRobot.angleServo.setPosition(POSITION_4);
-        }
+        }*/
 
         //2nd joint 180 - rotates stone from in the armVertical to out - middleManipulatorServo
         if (joy2.toggle.left_bumper) {
@@ -129,20 +114,13 @@ public class SkystoneTeleop extends OpMode {
         } else {
             skystoneRobot.capstoneServo.close();
         }
-        //Interior helping arm
-        if (gamepad1.b) {
-            skystoneRobot.stabServo.open();
-        } else {
-            skystoneRobot.stabServo.close();
-        }
-
     }
 
     private void driveBackwardsToggle(boolean toggle) {
-        /*if (toggle) {
+        if (toggle) {
             teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.BACKWARD);
-        } else {*/
+        } else {
             teleopDriver.tankDrive(gamepad1, TeleopDriver.Direction.FORWARD);
-        //}
+        }
     }
 }

@@ -20,20 +20,12 @@ public class SkystoneRobot implements Drivable, Initializable {
     public Latch latch;
 
     //Manipulator Hardware**********************
-    //Stone angle servo
-    public final DiscreteServo<AngleServoPosition> angleServo;
     // 2nd joint 180
     public final OpenCloseServo middleManipulatorServo;
     //Manipulator servo
     public final OpenCloseServo manipulatorServo;
     //Capstone servo
     public final OpenCloseServo capstoneServo;
-    //Stab servo - The arm in the pickup that helps move a block inside
-    public final OpenCloseServo stabServo;
-    //Pickup helper servo
-    public final ContinuousServo helperServo;
-
-
 
     //PICKUP Hardware******************
     //Pickup Release Servo
@@ -42,9 +34,6 @@ public class SkystoneRobot implements Drivable, Initializable {
     public final ReversableMotor pickup1;
     public final ReversableMotor pickup2;
     public final ReversableMotor armVertical;
-    public final ReversableMotor armHorizontal;
-
-
 
     // Sensors
     //private RangeSensor leftRangeSensor;
@@ -75,7 +64,6 @@ public class SkystoneRobot implements Drivable, Initializable {
         //Pickup Release Servo
         final Servo releaseServo = hardwareMap.servo.get("releaseServo");
         this.releaseServo = new OpenCloseServo(releaseServo, 0.01, .9, 0.01);
-
         //Capstone Servo
         final Servo capstoneServo = hardwareMap.servo.get("capstoneServo");
         this.capstoneServo = new OpenCloseServo(capstoneServo, .01, .99, .01);
@@ -91,29 +79,16 @@ public class SkystoneRobot implements Drivable, Initializable {
         final DcMotor armVertical = hardwareMap.dcMotor.get("armVertical");
         this.armVertical = new ReversableMotor(armVertical, 1);
 
-        final DcMotor armHorizontal = hardwareMap.dcMotor.get("armHorizontal");
-        this.armHorizontal = new ReversableMotor(armHorizontal, 1);
-
-
         //Manipulator Hardware**********************
 
         //2nd joint 180
         final Servo middleManipulatorServo = hardwareMap.servo.get("middleManipulatorServo");
         this.middleManipulatorServo = new OpenCloseServo(middleManipulatorServo, 0.2, .85, 0.2);
 
-        //Stone angle servo
-        final Servo angleServo = hardwareMap.servo.get("angleServo");
-        this.angleServo = new DiscreteServo<>(angleServo, AngleServoPosition.POSITION_1, AngleServoPosition.values());
-
         //Manipulator servo
         final Servo manipulatorServo = hardwareMap.servo.get("manipulatorServo");
-        this.manipulatorServo = new OpenCloseServo(manipulatorServo, .4, .4, .95);
-        //Stab servo
-        final Servo stabServo = hardwareMap.servo.get("stabServo");
-        this.stabServo = new OpenCloseServo(stabServo, .4, .25, .4);
-        //Helper servo
-        final Servo helperServo = hardwareMap.servo.get("helperServo");
-        this.helperServo = new ContinuousServo(helperServo);
+        this.manipulatorServo = new OpenCloseServo(manipulatorServo, .8, .38, .8);
+
         //Color sensor
         //this.colorSensor = hardwareMap.colorSensor.get("colorSensor");*/
     }
@@ -121,34 +96,16 @@ public class SkystoneRobot implements Drivable, Initializable {
     @Override
     public void initialize() {
         middleManipulatorServo.initialize();
-        angleServo.setPosition(AngleServoPosition.POSITION_1);
         manipulatorServo.initialize();
         releaseServo.initialize();
         capstoneServo.initialize();
-        stabServo.initialize();
-    };
+    }
 
     @Override
     public Drivetrain getDrivetrain() {
         return this.drivetrain;
     };
 
-    public enum AngleServoPosition implements DiscreteServo.DiscreteServoPosition {
-        POSITION_1(0.825),
-        POSITION_2(0.8),
-        POSITION_3(0.785),
-        POSITION_4(0.75);
 
-        private final double position;
-
-        AngleServoPosition(double position) {
-            this.position = position;
-        };
-
-        @Override
-        public double getPosition() {
-            return position;
-        };
-    }
 };
 

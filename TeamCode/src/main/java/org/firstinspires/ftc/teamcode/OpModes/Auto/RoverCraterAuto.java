@@ -38,7 +38,7 @@ public class RoverCraterAuto extends LinearOpMode {
         skystoneRobot.initialize();
 
         waitForStart();
-
+/*
         encoderAutoDriver.setPower(1);
         while(!skystoneRobot.latch.isFullyExtended())
         {
@@ -50,17 +50,21 @@ public class RoverCraterAuto extends LinearOpMode {
         //This is copy and pasted from RoverDepotAuto.java, the original code is commented out
         //encoderAutoDriver.driveToDistance(-1);
         skystoneRobot.latch.manualStop();
-        encoderAutoDriver.setPower(0.75);
-        encoderAutoDriver.driveLeftSideToDistance(-25.0);
-        encoderAutoDriver.driveToDistance(-7.0);
-        encoderAutoDriver.spinRight(10.0,-10.0);
-        encoderAutoDriver.driveToDistance(-8);
+
+ */     while((skystoneRobot.getDrivetrain().getRightEncoderCount() <= 2500) && (opModeIsActive())) {
+            encoderAutoDriver.setPower(0.75);
+            encoderAutoDriver.driveToDistance(5);
+        }
+
+        encoderAutoDriver.setPower(0);
+        //encoderAutoDriver.spinLeft(10.0,-10.0);
+        //encoderAutoDriver.driveToDistance(24);
         //Below is a correction turn
-        encoderAutoDriver.spinRight(0.4, -0.4);
+        //encoderAutoDriver.spinRight(0.4, -0.4);
 
         //Go to the end of the sampling items
-        skystoneRobot.getDrivetrain().resetMotorEncoders();
-        skystoneRobot.getDrivetrain().setPowers(0.3, 0.3);
+       // skystoneRobot.getDrivetrain().resetMotorEncoders();
+        //skystoneRobot.getDrivetrain().setPowers(0.3, 0.3);
         //while ((skystoneRobot.getDrivetrain().getLeftEncoderCount() <= 2700) && !skystoneRobot.foundYellowObject() && opModeIsActive())
        // {
             //telemetry.addData("Green Value", skystoneRobot.colorSensor.green());
@@ -70,6 +74,7 @@ public class RoverCraterAuto extends LinearOpMode {
             //telemetry.update();
         //}
        // double counts = skystoneRobot.getDrivetrain().getLeftEncoderCount();
+        /*
         skystoneRobot.getDrivetrain().haltDrive();
         encoderAutoDriver.spinLeft(-10,10);
         encoderAutoDriver.driveToDistance(-6);
@@ -83,6 +88,8 @@ public class RoverCraterAuto extends LinearOpMode {
         //encoderAutoDriver.spinLeft(-22, 22);
         encoderAutoDriver.driveToDistance(70);
         encoderAutoDriver.spinLeft(-.5,.5);
+
+         */
 
 
     }
