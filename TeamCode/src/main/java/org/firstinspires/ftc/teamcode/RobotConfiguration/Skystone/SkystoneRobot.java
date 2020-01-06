@@ -26,7 +26,8 @@ public class SkystoneRobot implements Drivable, Initializable {
     public final OpenCloseServo manipulatorServo;
     //Capstone servo
     public final OpenCloseServo capstoneServo;
-
+    //Platform servo
+    public final OpenCloseServo platformServo;
     //PICKUP Hardware******************
     //Pickup Release Servo
     public final OpenCloseServo releaseServo;
@@ -54,19 +55,23 @@ public class SkystoneRobot implements Drivable, Initializable {
         right1.setDirection(DcMotor.Direction.FORWARD);
         right2.setDirection(DcMotor.Direction.FORWARD);
         this.drivetrain = new Drivetrain.Builder()
-                .addLeftMotor(left1)
-                .addLeftMotorWithEncoder(left2)
+                .addLeftMotor(left2)
+                .addLeftMotorWithEncoder(left1)
                 .addRightMotor(right1)
                 .addRightMotorWithEncoder(right2)
+                .setGearRatio(1.2)
                 .build();
 
         //Pickup****************************************************************
         //Pickup Release Servo
         final Servo releaseServo = hardwareMap.servo.get("releaseServo");
-        this.releaseServo = new OpenCloseServo(releaseServo, 0.01, .9, 0.01);
+        this.releaseServo = new OpenCloseServo(releaseServo, 0.1, .99, 0.1);
         //Capstone Servo
         final Servo capstoneServo = hardwareMap.servo.get("capstoneServo");
         this.capstoneServo = new OpenCloseServo(capstoneServo, .01, .99, .01);
+        //Platform Servo
+        final Servo platformServo = hardwareMap.servo.get("platformServo");
+        this.platformServo = new OpenCloseServo(platformServo, .55, .55, .47);
         //Pickup Motors
         final DcMotor pickup1 = hardwareMap.dcMotor.get("pickup1");
         this.pickup1 = new ReversableMotor(pickup1, 1);
@@ -83,11 +88,11 @@ public class SkystoneRobot implements Drivable, Initializable {
 
         //2nd joint 180
         final Servo middleManipulatorServo = hardwareMap.servo.get("middleManipulatorServo");
-        this.middleManipulatorServo = new OpenCloseServo(middleManipulatorServo, 0.2, .85, 0.2);
+        this.middleManipulatorServo = new OpenCloseServo(middleManipulatorServo, 0.23, .86, 0.23);
 
         //Manipulator servo
         final Servo manipulatorServo = hardwareMap.servo.get("manipulatorServo");
-        this.manipulatorServo = new OpenCloseServo(manipulatorServo, .8, .38, .8);
+        this.manipulatorServo = new OpenCloseServo(manipulatorServo, .38, .38, .8);
 
         //Color sensor
         //this.colorSensor = hardwareMap.colorSensor.get("colorSensor");*/
@@ -99,6 +104,7 @@ public class SkystoneRobot implements Drivable, Initializable {
         manipulatorServo.initialize();
         releaseServo.initialize();
         capstoneServo.initialize();
+        platformServo.initialize();
     }
 
     @Override

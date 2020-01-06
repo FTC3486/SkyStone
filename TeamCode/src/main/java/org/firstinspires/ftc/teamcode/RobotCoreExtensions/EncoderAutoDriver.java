@@ -109,6 +109,78 @@ public class EncoderAutoDriver extends AutoDriver {
     }
 
 
+    // Function - driveLeftSideToDistancePower
+    // Drives the left side forwards or backwards converting our inches input to counts while the OpMode is active
+    // using the power variable for speed control.
+    // Left side is at full power and right side is 70% of left
+    // Distance in inches to one decimal place.
+    // Input – number, positive to move forward or negative to go backwards.   Example (4) 4 inches forward,
+    // (-8) eight inches backwards.
+
+
+    public void driveLeftSideToDistancePower(double distance) {
+        setupMotion("Driving to set distance.");
+
+        if (distance > 0) {
+            hw.getDrivetrain().setPowers(power, power*.7);
+
+            while (drivetrain.getLeftEncoderCount() < drivetrain.convertInchesToEncoderCounts(distance)
+                    && opMode.opModeIsActive()) {
+                opMode.telemetry.addData("LeftEncoderCount: ", drivetrain.getLeftEncoderCount());
+                opMode.telemetry.addData("RightEncoderCount: ", drivetrain.getRightEncoderCount());
+                opMode.telemetry.update();
+            }
+        }else {
+            hw.getDrivetrain().setPowers(-power, power*.7);
+
+            while (drivetrain.getLeftEncoderCount() > drivetrain.convertInchesToEncoderCounts(distance)
+                    && opMode.opModeIsActive()) {
+                opMode.telemetry.addData("LeftEncoderCount: ", drivetrain.getLeftEncoderCount());
+                opMode.telemetry.addData("RightEncoderCount: ", drivetrain.getRightEncoderCount());
+                opMode.telemetry.update();
+            }
+        }
+        endMotion();
+    }
+
+    // Function - driveRightSideToDistance
+    // Drives the right side forwards of backwards converting our inches input to counts while the OpMode is active
+    // using the power variable for speed control.
+    // Right side is at full power and left side is 70% of right
+    // Distance in inches to one decimal place.
+    // Input – number, positive to move forward or negative to go backwards.   Example (4) 4 inches forward,
+    // (-8) eight inches backwards.
+
+    public void driveRightSideToDistancePower(double distance) {
+        setupMotion("Driving to set distance.");
+
+        if (distance > 0) {
+
+            drivetrain.setPowers(power*.7, power);
+
+            while (drivetrain.getRightEncoderCount() < drivetrain.convertInchesToEncoderCounts(distance)
+                    && opMode.opModeIsActive()) {
+                opMode.telemetry.addData("LeftEncoderCount: ", drivetrain.getLeftEncoderCount());
+                opMode.telemetry.addData("RightEncoderCount: ", drivetrain.getRightEncoderCount());
+                opMode.telemetry.update();
+            }
+
+        }else {
+
+            drivetrain.setPowers(power*.7, -power);
+
+            while (drivetrain.getRightEncoderCount() > drivetrain.convertInchesToEncoderCounts(distance)
+                    && opMode.opModeIsActive()) {
+                opMode.telemetry.addData("LeftEncoderCount: ", drivetrain.getLeftEncoderCount());
+                opMode.telemetry.addData("RightEncoderCount: ", drivetrain.getRightEncoderCount());
+                opMode.telemetry.update();
+            }
+        }
+        endMotion();
+    }
+
+
+
     // Function - driveToDistance
     // Drives both sides straight forwards or backwards converting our inches input to counts while the OpMode is active
     // using the power variable for speed control.

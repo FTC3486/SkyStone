@@ -26,8 +26,9 @@ public class SkystoneTeleop extends OpMode {
         skystoneRobot = new SkystoneRobot(this.hardwareMap);
         skystoneRobot.initialize();
         teleopDriver = new TeleopDriver(skystoneRobot);
+        teleopDriver.setMinSpeed(0.2);
         skystoneRobot.initialize();
-        //skystoneRobot.jewelArm.fullyExtend();
+        skystoneRobot.releaseServo.open();
     }
 
     @Override
@@ -41,7 +42,7 @@ public class SkystoneTeleop extends OpMode {
         //Toggle Half Speed on the drivetrain
         if (joy1.toggle.right_stick_button) {
             // control the drive train at half speed
-            teleopDriver.setMaxSpeed(1f);
+            teleopDriver.setMaxSpeed(.3f);
         } else {
             // control the drive train
             teleopDriver.setMaxSpeed(1f);
@@ -51,19 +52,22 @@ public class SkystoneTeleop extends OpMode {
 
         //PICKUP Functions********************************************************
         //Pickup Release Servo
-        if (gamepad1.a) {
+
+
+        if (joy1.toggle.a) {
             skystoneRobot.releaseServo.open();
         } else {
             skystoneRobot.releaseServo.close();
         }
 
+
         //Pickup Motor
         if (gamepad1.right_bumper) {
-            skystoneRobot.pickup1.run(.99);
-            skystoneRobot.pickup2.run(.99);
-        } else if (gamepad1.y) {
             skystoneRobot.pickup1.reverse(-0.99);
             skystoneRobot.pickup2.reverse(-0.99);
+        } else if (gamepad1.y) {
+            skystoneRobot.pickup1.run(.99);
+            skystoneRobot.pickup2.run(.99);
         } else if (gamepad1.left_bumper) {
             skystoneRobot.pickup1.stop();
             skystoneRobot.pickup2.stop();
@@ -73,9 +77,9 @@ public class SkystoneTeleop extends OpMode {
 
         //Buttons for the arm up/down
         if (gamepad2.right_stick_y > joy2.getLeftStickThreshold()) {
-            skystoneRobot.armVertical.reverse(gamepad2.right_stick_y / 1.3);
+            skystoneRobot.armVertical.reverse(gamepad2.right_stick_y);
         } else if (gamepad2.right_stick_y < -joy2.getLeftStickThreshold()) {
-            skystoneRobot.armVertical.run(gamepad2.right_stick_y / 1.3);
+            skystoneRobot.armVertical.run(gamepad2.right_stick_y);
         } else {
             skystoneRobot.armVertical.stop();
             //skystoneRobot.armVertical.reverse(.5);
@@ -103,17 +107,30 @@ public class SkystoneTeleop extends OpMode {
 
         //Manipulator/grabber servo
         if (joy2.toggle.right_bumper) {
-            skystoneRobot.manipulatorServo.open();
-        } else {
             skystoneRobot.manipulatorServo.close();
+        } else {
+            skystoneRobot.manipulatorServo.open();
         }
 
         //Capstone
-        if (gamepad1.x) {
+        if (joy1.toggle.x) {
             skystoneRobot.capstoneServo.open();
         } else {
             skystoneRobot.capstoneServo.close();
         }
+
+
+        //Platform
+        if (joy1.toggle.b) {
+            skystoneRobot.platformServo.close();
+        } else {
+            skystoneRobot.platformServo.open();
+        }
+        /*if (gamepad1.x) {
+            skystoneRobot.capstoneServo.open();
+        } else {
+            skystoneRobot.capstoneServo.close();
+        }*/
     }
 
     private void driveBackwardsToggle(boolean toggle) {

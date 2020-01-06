@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.EncoderAutoDriver;
 
 /*
-    Filename: RoverCraterAuto.java
+    Filename: SkystoneFoundationAutoBlue.java
 
     Description:
         Test Autonomous program using encoders to drive Rover.
@@ -23,13 +23,13 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.EncoderAutoDriver;
  *     -Jewel armVertical
  * *
  * Changelog:
- *     -Created by Saatvik on 10/5/18.
+ *     -Created by Mary on 12/30/19.
  *     -
 
  */
 
 @Autonomous (group = "Blue" )
-public class RoverCraterAuto extends LinearOpMode {
+public class SkystoneFoundationAutoBlue extends LinearOpMode {
     @Override
     public void runOpMode() {
         final SkystoneRobot skystoneRobot = new SkystoneRobot(this.hardwareMap);
@@ -37,7 +37,31 @@ public class RoverCraterAuto extends LinearOpMode {
         //RangeAutoDriver rangeAutoDriver = new RangeAutoDriver(rover, this);
         skystoneRobot.initialize();
 
+        //Autonomous for Squatty the Robot Blue Side - Foundation
         waitForStart();
+        encoderAutoDriver.setPower(0.400);
+        skystoneRobot.armVertical.stop();
+        encoderAutoDriver.driveToDistance(20.5);
+        encoderAutoDriver.setPower(.15);
+        encoderAutoDriver.spinRight(.5,-.5);
+        encoderAutoDriver.driveToDistance(5.75);
+        //encoderAutoDriver.spinRight(.25,-.25);
+        skystoneRobot.platformServo.close();
+        //sleep is meant to pause the robot for 1000 milliseconds
+        sleep(2500);
+        encoderAutoDriver.setPower(.4);
+        encoderAutoDriver.driveToDistance(-15); //20
+        encoderAutoDriver.driveLeftSideToDistance(-20);// 9
+        skystoneRobot.platformServo.open();
+        sleep(2500);
+        //encoderAutoDriver.driveToDistance(-2);
+        encoderAutoDriver.setPower(.8);
+        encoderAutoDriver.driveToDistance(-3);
+        encoderAutoDriver.spinRight(10,-10);
+        encoderAutoDriver.driveToDistance(30);
+        skystoneRobot.releaseServo.open();
+        sleep(3500);
+
 /*
         encoderAutoDriver.setPower(1);
         while(!skystoneRobot.latch.isFullyExtended())
@@ -51,12 +75,12 @@ public class RoverCraterAuto extends LinearOpMode {
         //encoderAutoDriver.driveToDistance(-1);
         skystoneRobot.latch.manualStop();
 
- */     while((skystoneRobot.getDrivetrain().getRightEncoderCount() <= 2500) && (opModeIsActive())) {
+     while((skystoneRobot.getDrivetrain().getRightEncoderCount() <= 2500) && (opModeIsActive())) {
             encoderAutoDriver.setPower(0.75);
             encoderAutoDriver.driveToDistance(5);
         }
 
-        encoderAutoDriver.setPower(0);
+        encoderAutoDriver.setPower(0);*/
         //encoderAutoDriver.spinLeft(10.0,-10.0);
         //encoderAutoDriver.driveToDistance(24);
         //Below is a correction turn
