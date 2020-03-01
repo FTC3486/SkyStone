@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @TeleOp(name = "Vuforia Testing", group = "Concept")
+@Disabled
 public class VuforiaTest extends LinearOpMode {
 
     VuforiaDriver vuforiaDriver;

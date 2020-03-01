@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -35,6 +36,7 @@ public class SkystoneRobot implements Drivable, Initializable {
     public final ReversableMotor pickup1;
     public final ReversableMotor pickup2;
     public final ReversableMotor armVertical;
+    public final ReversableMotor flapper;
 
     // Sensors
     //private RangeSensor leftRangeSensor;
@@ -68,17 +70,20 @@ public class SkystoneRobot implements Drivable, Initializable {
         this.releaseServo = new OpenCloseServo(releaseServo, 0.1, .99, 0.1);
         //Capstone Servo
         final Servo capstoneServo = hardwareMap.servo.get("capstoneServo");
-        this.capstoneServo = new OpenCloseServo(capstoneServo, .01, .99, .01);
+        this.capstoneServo = new OpenCloseServo(capstoneServo, .01, .99, .05);
         //Platform Servo
         final Servo platformServo = hardwareMap.servo.get("platformServo");
-        this.platformServo = new OpenCloseServo(platformServo, .55, .55, .47);
+        this.platformServo = new OpenCloseServo(platformServo, .47, .55, .47);
         //Pickup Motors
         final DcMotor pickup1 = hardwareMap.dcMotor.get("pickup1");
         this.pickup1 = new ReversableMotor(pickup1, 1);
         final DcMotor pickup2 = hardwareMap.dcMotor.get("pickup2");
         this.pickup2 = new ReversableMotor(pickup2, 1);
+        final DcMotor flapper = hardwareMap.dcMotor.get("flapper");
+        this.flapper = new ReversableMotor(flapper, 1);
         pickup1.setDirection(DcMotor.Direction.FORWARD);
         pickup2.setDirection(DcMotor.Direction.REVERSE);
+        flapper.setDirection(DcMotor.Direction.FORWARD);
 
         //ARM*******************************************************************
         final DcMotor armVertical = hardwareMap.dcMotor.get("armVertical");
@@ -102,9 +107,9 @@ public class SkystoneRobot implements Drivable, Initializable {
     public void initialize() {
         middleManipulatorServo.initialize();
         manipulatorServo.initialize();
-        releaseServo.initialize();
         capstoneServo.initialize();
         platformServo.initialize();
+        releaseServo.initialize();
     }
 
     @Override

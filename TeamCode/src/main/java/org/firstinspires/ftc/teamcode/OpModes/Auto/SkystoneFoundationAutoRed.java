@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotConfiguration.Skystone.SkystoneRobot;
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.EncoderAutoDriver;
 
 @Autonomous(group = "Red" )
+@Disabled
 public class SkystoneFoundationAutoRed extends LinearOpMode {
     @Override
     public void runOpMode() {
@@ -18,6 +20,7 @@ public class SkystoneFoundationAutoRed extends LinearOpMode {
         //Autonomous for Squatty the Robot Blue Side - Foundation
         waitForStart();
         encoderAutoDriver.setPower(0.4);
+        skystoneRobot.platformServo.open();
         encoderAutoDriver.driveToDistance(15);
         encoderAutoDriver.spinRight(.8, -.8);
         encoderAutoDriver.driveToDistance(20);
@@ -31,7 +34,7 @@ public class SkystoneFoundationAutoRed extends LinearOpMode {
         encoderAutoDriver.driveToDistance(-3);
         encoderAutoDriver.spinRight(6, -6);
         encoderAutoDriver.driveToDistance(16);
-        skystoneRobot.platformServo.open();
+        //skystoneRobot.platformServo.open();
         sleep(2500);
         encoderAutoDriver.driveToDistance(-4);
         encoderAutoDriver.spinRight(7, -7);

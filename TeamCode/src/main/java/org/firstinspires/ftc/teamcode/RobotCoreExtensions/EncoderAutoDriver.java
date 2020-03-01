@@ -122,7 +122,7 @@ public class EncoderAutoDriver extends AutoDriver {
         setupMotion("Driving to set distance.");
 
         if (distance > 0) {
-            hw.getDrivetrain().setPowers(power, power*.7);
+            hw.getDrivetrain().setPowers(power, power*.5);
 
             while (drivetrain.getLeftEncoderCount() < drivetrain.convertInchesToEncoderCounts(distance)
                     && opMode.opModeIsActive()) {
@@ -131,7 +131,7 @@ public class EncoderAutoDriver extends AutoDriver {
                 opMode.telemetry.update();
             }
         }else {
-            hw.getDrivetrain().setPowers(-power, power*.7);
+            hw.getDrivetrain().setPowers(-power, -power*.5);
 
             while (drivetrain.getLeftEncoderCount() > drivetrain.convertInchesToEncoderCounts(distance)
                     && opMode.opModeIsActive()) {
@@ -156,7 +156,7 @@ public class EncoderAutoDriver extends AutoDriver {
 
         if (distance > 0) {
 
-            drivetrain.setPowers(power*.7, power);
+            drivetrain.setPowers(power*.5, power);
 
             while (drivetrain.getRightEncoderCount() < drivetrain.convertInchesToEncoderCounts(distance)
                     && opMode.opModeIsActive()) {
@@ -167,7 +167,7 @@ public class EncoderAutoDriver extends AutoDriver {
 
         }else {
 
-            drivetrain.setPowers(power*.7, -power);
+            drivetrain.setPowers(-power*.5, -power);
 
             while (drivetrain.getRightEncoderCount() > drivetrain.convertInchesToEncoderCounts(distance)
                     && opMode.opModeIsActive()) {

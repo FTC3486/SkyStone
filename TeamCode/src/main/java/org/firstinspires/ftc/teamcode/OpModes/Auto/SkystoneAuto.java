@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.VuforiaDriver;
 import java.util.Arrays;
 
 @Autonomous(group = "Blue" )
+@Disabled
 public class SkystoneAuto extends LinearOpMode {
     private VuforiaDriver vuforiaDriver;
 
@@ -39,8 +41,8 @@ public class SkystoneAuto extends LinearOpMode {
 
         //Autonomous for Squatty the Robot Blue Side
         waitForStart();
-        skystoneRobot.releaseServo.open();
         encoderAutoDriver.setPower(.5);
+        skystoneRobot.platformServo.open();
         encoderAutoDriver.driveToDistance(10.5);
         // it worked at 11.5 a few times
         encoderAutoDriver.spinLeft(-7,7);
