@@ -24,10 +24,10 @@ public class MechanumDriveTeleop extends OpMode {
         joy1 = new GamepadWrapper();
         joy2 = new GamepadWrapper();
 
-        frontLeft = hardwareMap.get(DcMotor.class, "Front Left");
-        frontRight = hardwareMap.get(DcMotor.class, "Front Right");
-        backLeft = hardwareMap.get(DcMotor.class, "Back Left");
-        backRight = hardwareMap.get(DcMotor.class, "Back Right");
+        frontLeft = hardwareMap.get(DcMotor.class, "leftf");
+        frontRight = hardwareMap.get(DcMotor.class, "rightf");
+        backLeft = hardwareMap.get(DcMotor.class, "leftr");
+        backRight = hardwareMap.get(DcMotor.class, "rightr");
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -39,7 +39,7 @@ public class MechanumDriveTeleop extends OpMode {
     public void loop() {
         //Gamepad 1 is the driver controller, gamepad 2 is the gunner controller
         joy1.update(gamepad1);
-        joy2.update(gamepad2);
+                joy2.update(gamepad2);
 
         // Create direction vector
         final float forward = -gamepad1.left_stick_y;
@@ -54,10 +54,10 @@ public class MechanumDriveTeleop extends OpMode {
         // Now apply the inverse kinematic tranformation
         // to convert your vehicle motion command
         // to 4 wheel speed commands:
-        float frontLeftSpeed = forward + clockwise + right;
-        float frontRightSpeed = forward - clockwise - right;
-        float backLeftSpeed = forward + clockwise - right;
-        float backRightSpeed = forward - clockwise + right;
+        float frontLeftSpeed = forward + clockwise - right;
+        float frontRightSpeed = forward - clockwise + right;
+        float backLeftSpeed = forward + clockwise + right;
+        float backRightSpeed = forward - clockwise - right;
 
         // Finally, normalize the wheel speed commands
         // so that no wheel speed command exceeds magnitude of 1:
@@ -73,9 +73,9 @@ public class MechanumDriveTeleop extends OpMode {
         }
 
         // Send power to wheels
-        frontLeft.setPower(frontLeftSpeed * 0.8);
-        frontRight.setPower(frontRightSpeed * 0.8);
-        backLeft.setPower(backLeftSpeed * 0.8);
-        backRight.setPower(backRightSpeed * 0.8);
+        frontLeft.setPower(frontLeftSpeed * 1);
+        frontRight.setPower(frontRightSpeed * 1);
+        backLeft.setPower(backLeftSpeed * 1);
+        backRight.setPower(backRightSpeed * 1);
     }
 }
