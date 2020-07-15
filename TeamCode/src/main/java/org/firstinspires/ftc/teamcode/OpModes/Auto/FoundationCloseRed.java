@@ -36,7 +36,7 @@ public class FoundationCloseRed extends LinearOpMode {
         final EncoderAutoDriver encoderAutoDriver = new EncoderAutoDriver(skystoneRobot, this);
         //RangeAutoDriver rangeAutoDriver = new RangeAutoDriver(rover, this);
         skystoneRobot.initialize();
-
+        /*
         //Autonomous for Squatty the Robot Red Side - Foundation, Park Close
         waitForStart();
         encoderAutoDriver.setPower(.5);
@@ -71,6 +71,6 @@ public class FoundationCloseRed extends LinearOpMode {
         encoderAutoDriver.driveToDistance(25);
         //skystoneRobot.releaseServo.open();
         sleep(3500);
-
+        */
     }
 }

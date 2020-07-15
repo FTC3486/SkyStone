@@ -40,6 +40,7 @@ public class StoneFarRed extends LinearOpMode {
 
         // Autonomous for Squatty the Robot Red Side - Stone, Park Far
         waitForStart();
+        /*
         encoderAutoDriver.setPower(1);
         skystoneRobot.platformServo.open();
         skystoneRobot.releaseServo.open();
@@ -71,5 +72,6 @@ public class StoneFarRed extends LinearOpMode {
         skystoneRobot.pickup2.reverse(1);
         //Parking on the line
         encoderAutoDriver.driveToDistance(-12);
+         */
     }
 }

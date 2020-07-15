@@ -19,6 +19,7 @@ public class SkystoneFoundationAutoRed extends LinearOpMode {
 
         //Autonomous for Squatty the Robot Blue Side - Foundation
         waitForStart();
+        /*
         encoderAutoDriver.setPower(0.4);
         skystoneRobot.platformServo.open();
         encoderAutoDriver.driveToDistance(15);

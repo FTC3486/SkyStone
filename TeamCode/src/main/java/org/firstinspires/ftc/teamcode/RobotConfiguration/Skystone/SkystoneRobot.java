@@ -103,7 +103,7 @@ public class SkystoneRobot implements Drivable, Initializable {
         //this.colorSensor = hardwareMap.colorSensor.get("colorSensor");*/
     }
 
-    @Override
+   @Override
     public void initialize() {
         middleManipulatorServo.initialize();
         manipulatorServo.initialize();
@@ -116,7 +116,5 @@ public class SkystoneRobot implements Drivable, Initializable {
     public Drivetrain getDrivetrain() {
         return this.drivetrain;
     };
-
-
 };
 

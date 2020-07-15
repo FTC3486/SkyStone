@@ -29,6 +29,7 @@ public class StoneFarBlue extends LinearOpMode {
         skystoneRobot.initialize();
 
         waitForStart();
+        /*
         encoderAutoDriver.setPower(1);
         skystoneRobot.platformServo.open();
         skystoneRobot.releaseServo.open();
@@ -61,5 +62,6 @@ public class StoneFarBlue extends LinearOpMode {
         skystoneRobot.pickup2.reverse(1);
         //Parking on the line
         encoderAutoDriver.driveToDistance(12);
+        */
     }
 }

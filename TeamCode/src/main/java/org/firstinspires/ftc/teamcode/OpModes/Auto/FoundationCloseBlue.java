@@ -38,6 +38,7 @@ public class FoundationCloseBlue extends LinearOpMode {
         skystoneRobot.initialize();
 
         //Autonomous for Squatty the Robot Blue Side - Foundation, Park Close
+        /*
         waitForStart();
         encoderAutoDriver.setPower(.5);
         skystoneRobot.platformServo.open();
@@ -53,7 +54,7 @@ public class FoundationCloseBlue extends LinearOpMode {
         encoderAutoDriver.driveToDistance(1);
         encoderAutoDriver.driveToDistance(-1);
         encoderAutoDriver.setPower(.4);
-        encoderAutoDriver.driveLeftSideToDistancePower(-30);
+        //encoderAutoDriver.driveLeftSideToDistancePower(-30);
         //encoderAutoDriver.driveToDistance(-15); //20
         //encoderAutoDriver.driveLeftSideToDistance(-20);// 9
         skystoneRobot.platformServo.open();
@@ -66,6 +67,6 @@ public class FoundationCloseBlue extends LinearOpMode {
         encoderAutoDriver.driveToDistance(24);
         //skystoneRobot.releaseServo.open();
         sleep(3500);
-
+        */
     }
 }

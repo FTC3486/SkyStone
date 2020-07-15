@@ -39,12 +39,20 @@ public class ParkingFarRed extends LinearOpMode {
 
         //Autonomous for Squatty the Robot Blue Side - Park Far
         waitForStart();
-        encoderAutoDriver.setPower(.5);
-        encoderAutoDriver.driveToDistance(20);
-        encoderAutoDriver.spinRight(7.6, -7.6);
-        encoderAutoDriver.driveToDistance(10);
-        skystoneRobot.platformServo.open();
-        skystoneRobot.releaseServo.open();
 
+        /*
+        encoderAutoDriver.setPower(.5);
+        encoderAutoDriver.driveLeftSideToDistance(20);
+
+        encoderAutoDriver.driveLeftSideToDistancePower(20);
+        encoderAutoDriver.spinLeftSideToDistance(20, 1, 1);
+
+
+
+
+        encoderAutoDriver.spinRight(7.6, -7.6);
+        encoderAutoDriver.driveToDistance(10, 1);
+        skystoneRobot.platformServo.open();
+        skystoneRobot.releaseServo.open();*/
     }
 }

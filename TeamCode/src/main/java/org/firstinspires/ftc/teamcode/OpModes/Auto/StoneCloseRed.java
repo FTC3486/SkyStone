@@ -38,6 +38,7 @@ public class StoneCloseRed extends LinearOpMode {
         // RangeAutoDriver rangeAutoDriver = new RangeAutoDriver(rover, this);
         skystoneRobot.initialize();
 
+        /*
         // Autonomous for Squatty the Robot Red Side - Stone, Park Close
         waitForStart();
         encoderAutoDriver.setPower(1);
@@ -71,5 +72,6 @@ public class StoneCloseRed extends LinearOpMode {
         skystoneRobot.pickup2.reverse(1);
         //Parking on the line
         encoderAutoDriver.driveToDistance(-12);
+        */
     }
 }

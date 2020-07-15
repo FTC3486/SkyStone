@@ -36,15 +36,30 @@ public class ParkingCloseBlue extends LinearOpMode {
         final EncoderAutoDriver encoderAutoDriver = new EncoderAutoDriver(skystoneRobot, this);
         //RangeAutoDriver rangeAutoDriver = new RangeAutoDriver(rover, this);
         skystoneRobot.initialize();
-
+        /*
         //Autonomous for Squatty the Robot Blue Side - Park Close
         waitForStart();
-        encoderAutoDriver.setPower(.5);
-        encoderAutoDriver.driveToDistance(4);
-        encoderAutoDriver.spinLeft(-7.2, 7.2);
-        encoderAutoDriver.driveToDistance(10);
-        skystoneRobot.platformServo.open();
-        skystoneRobot.releaseServo.open();
 
+        double robotPower = 1;
+        encoderAutoDriver.setPower(robotPower);
+
+        double leftInches = -4;
+        double rightInches = 4;
+        encoderAutoDriver.spinLeft(leftInches, rightInches);
+        sleep(1000);
+        double distance = 13;
+        encoderAutoDriver.driveToDistance(distance);
+        sleep(1000);
+        encoderAutoDriver.driveToDistance(-distance);
+        sleep(1000);
+        encoderAutoDriver.driveLeftSideToDistance(13);
+        sleep(1000);
+        skystoneRobot.releaseServo.open();
+        sleep(1000);
+
+
+        skystoneRobot.releaseServo.close();
+
+         */
     }
 }

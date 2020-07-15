@@ -38,7 +38,7 @@ public class SkystoneAuto extends LinearOpMode {
                 new Position(DistanceUnit.INCH, 4, 8, 0, 0),
                 new Orientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, 90, -90, 0, 0));
 
-
+        /*
         //Autonomous for Squatty the Robot Blue Side
         waitForStart();
         encoderAutoDriver.setPower(.5);
@@ -53,9 +53,9 @@ public class SkystoneAuto extends LinearOpMode {
 
                 hasTurned = true;
             }
-            /*if (vuforiaDriver.getTrackableLocation(VuforiaSkyStone.TRACKABLE_NAMES[0]) != null) {
+            if (vuforiaDriver.getTrackableLocation(VuforiaSkyStone.TRACKABLE_NAMES[0]) != null) {
                 encoderAutoDriver.spinRight(22, 22);
-            }*/
+            }
         }
         encoderAutoDriver.setPower(.5);
         encoderAutoDriver.spinLeft(-8,8);
@@ -70,5 +70,6 @@ public class SkystoneAuto extends LinearOpMode {
         skystoneRobot.pickup1.run(0.99);
         skystoneRobot.pickup2.run(0.99);
         encoderAutoDriver.driveToDistance(300);
+        */
     }
 }

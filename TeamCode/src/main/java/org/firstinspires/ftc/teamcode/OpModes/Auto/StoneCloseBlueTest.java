@@ -23,6 +23,7 @@ public class StoneCloseBlueTest extends LinearOpMode {
 
         //Autonomous for Squatty the Robot Blue Side - Stone, Park Close
         waitForStart();
+        /*
         encoderAutoDriver.setPower(1);
         skystoneRobot.flapper.run(1);
         skystoneRobot.platformServo.open();

@@ -36,7 +36,7 @@ public class FoundationFarBlue extends LinearOpMode {
         final EncoderAutoDriver encoderAutoDriver = new EncoderAutoDriver(skystoneRobot, this);
         //RangeAutoDriver rangeAutoDriver = new RangeAutoDriver(rover, this);
         skystoneRobot.initialize();
-
+        /*
         //Autonomous for Squatty the Robot Blue Side - Foundation, Park Far
         waitForStart();
         encoderAutoDriver.setPower(.5);
@@ -53,7 +53,7 @@ public class FoundationFarBlue extends LinearOpMode {
         encoderAutoDriver.driveToDistance(1);
         encoderAutoDriver.driveToDistance(-1);
         encoderAutoDriver.setPower(.4);
-        encoderAutoDriver.driveLeftSideToDistancePower(-30);
+        //encoderAutoDriver.driveLeftSideToDistancePower(-30);
         //encoderAutoDriver.driveToDistance(-15); //20
         //encoderAutoDriver.driveLeftSideToDistance(-20);// 9
         skystoneRobot.platformServo.open();
@@ -65,6 +65,6 @@ public class FoundationFarBlue extends LinearOpMode {
         encoderAutoDriver.driveToDistance(27);
         //skystoneRobot.releaseServo.open();
         sleep(3500);
-
+        */
     }
 }
