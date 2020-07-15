@@ -55,7 +55,6 @@ public class EncoderAutoDriver extends AutoDriver {
     //
     // Example: turnRight(12, 1.0, -0.5) -> drives until the left side of the robot has driven 12 inches
     // with the left motors set at 1.0 power and the right motors set at -0.5 power. This performs a swivel turn.
-
     public void turnRight(double distanceInInches, double leftPower, double rightPower) {
         setupMotion("Turning right");
 
@@ -71,7 +70,6 @@ public class EncoderAutoDriver extends AutoDriver {
             while(drivetrain.getLeftEncoderCount() > drivetrain.convertInchesToEncoderCounts(distanceInInches)
                     && opMode.opModeIsActive()) {}
         }
-
         endMotion();
     }
 
@@ -89,7 +87,6 @@ public class EncoderAutoDriver extends AutoDriver {
     //
     // Example: turnLeft(12, -0.5, 1) -> drives until the right side of the robot has driven 12 inches
     // with the left motors set at -0.5 power and the right motors set at 1.0 power. This performs a swivel turn.
-
     public void turnLeft(double distance, double leftPower, double rightPower) {
         setupMotion("Turning left");
 
@@ -105,6 +102,7 @@ public class EncoderAutoDriver extends AutoDriver {
             while(drivetrain.getRightEncoderCount() > drivetrain.convertInchesToEncoderCounts(distance)
                     && opMode.opModeIsActive()) {}
         }
+        endMotion();
     }
 
     // Function - driveToDistance
@@ -116,7 +114,6 @@ public class EncoderAutoDriver extends AutoDriver {
     //
     // Example driveToDistance(5, 1) = drive the robot straight for 5 inches at power = 1
     // driveToDistance(-5, 1) = drive the robot in reverse in a straight line for 5 inches at power = 1
-
     public void driveToDistance(double distance, double leftAndRightPower) {
         setupMotion("Driving to set distance.");
 
@@ -143,7 +140,6 @@ public class EncoderAutoDriver extends AutoDriver {
     //
     // Examples - spinClockwise(7, 1) - Spin the robot clockwise at power = 1 until the left
     //             side of the robot has traveled 7 inches.
-
     public void spinClockwise(double distanceInInches, double leftPower) {
         turnRight(distanceInInches, leftPower, -leftPower);
     }
@@ -158,7 +154,6 @@ public class EncoderAutoDriver extends AutoDriver {
     //
     // Examples - spinCounterclockwise(7, 1) - Spin the robot clockwise at power = 1 until the right
     //             side of the robot has traveled 7 inches.
-
     public void spinCounterclockwise(double distance, double rightPower) {
         turnLeft(distance, -rightPower, rightPower);
     }

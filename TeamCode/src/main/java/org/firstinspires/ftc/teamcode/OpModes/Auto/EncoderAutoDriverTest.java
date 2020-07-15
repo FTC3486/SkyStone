@@ -21,12 +21,21 @@ public class EncoderAutoDriverTest extends LinearOpMode {
         waitForStart();
 
         encoderAutoDriver.driveToDistance(5, 0.5);
+        sleep(5000);
+
         encoderAutoDriver.driveToDistance(-5, 0.5);
+        sleep(5000);
 
         encoderAutoDriver.turnLeft(5, 0.5, 1.0);
+        sleep(5000);
+
         encoderAutoDriver.spinCounterclockwise(5, 1.0);
+        sleep(5000);
 
         encoderAutoDriver.turnRight(5, 1.0, 0.5);
+        sleep(5000);
+
         encoderAutoDriver.spinClockwise(5, 1.0);
+        sleep(5000);
     }
 }
