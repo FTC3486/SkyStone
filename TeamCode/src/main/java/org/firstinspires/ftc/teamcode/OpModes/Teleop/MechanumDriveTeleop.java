@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
 
@@ -18,6 +17,10 @@ public class MechanumDriveTeleop extends OpMode {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
+
+    private final double lowSpeedMultiplier = 0.25;
+    private final double halfSpeedMultiplier = 0.5;
+    private final double fullSpeedMultiplier = 1;
 
     @Override
     public void init() {
@@ -73,9 +76,23 @@ public class MechanumDriveTeleop extends OpMode {
         }
 
         // Send power to wheels
-        frontLeft.setPower(frontLeftSpeed * 1);
-        frontRight.setPower(frontRightSpeed * 1);
-        backLeft.setPower(backLeftSpeed * 1);
-        backRight.setPower(backRightSpeed * 1);
+
+        if (gamepad1.left_trigger > 0) {
+            frontLeft.setPower(frontLeftSpeed * fullSpeedMultiplier);
+            frontRight.setPower(frontRightSpeed * fullSpeedMultiplier);
+            backLeft.setPower(backLeftSpeed * fullSpeedMultiplier);
+            backRight.setPower(backRightSpeed * fullSpeedMultiplier);
+        } else if (gamepad1.right_trigger > 0) {
+            frontLeft.setPower(frontLeftSpeed * lowSpeedMultiplier);
+            frontRight.setPower(frontRightSpeed * lowSpeedMultiplier);
+            backLeft.setPower(backLeftSpeed * lowSpeedMultiplier);
+            backRight.setPower(backRightSpeed * lowSpeedMultiplier);
+        } else {
+            frontLeft.setPower(frontLeftSpeed * halfSpeedMultiplier);
+            frontRight.setPower(frontRightSpeed * halfSpeedMultiplier);
+            backLeft.setPower(backLeftSpeed * halfSpeedMultiplier);
+            backRight.setPower(backRightSpeed * halfSpeedMultiplier);
+
+        }
     }
 }

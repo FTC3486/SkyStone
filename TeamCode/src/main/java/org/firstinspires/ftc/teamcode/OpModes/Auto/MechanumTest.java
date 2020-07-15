@@ -20,13 +20,23 @@ public class MechanumTest extends LinearOpMode {
         //Autonomous for Squatty the Robot Blue Side - Park Close
         waitForStart();
 
-        mechanumAutoDriver.driveForward(1375, 0.5);
-        sleep(5000);
-
+        // One block is 1375 encoder counts
         mechanumAutoDriver.driveForward(1375, 1);
         sleep(5000);
 
+        mechanumAutoDriver.driveForward(1375, 0.5);
+        sleep(5000);
+
         mechanumAutoDriver.driveForward(1375, 0.3);
+        sleep(5000);
+
+        mechanumAutoDriver.driveBackwards(1375, 1);
+        sleep(5000);
+
+        mechanumAutoDriver.driveBackwards(1375, 0.5);
+        sleep(5000);
+
+        mechanumAutoDriver.driveBackwards(1375, 1);
         sleep(5000);
     }
 }

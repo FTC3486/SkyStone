@@ -40,11 +40,11 @@ public class MechanumAutoDriver extends AutoDriver {
         backRight.setPower(inputPower);
 
         while(backLeft.getCurrentPosition() <= distance && opMode.opModeIsActive()){
-            /*opMode.telemetry.addData("FrontLeftMotorEncoder", frontLeft.getCurrentPosition());
+            opMode.telemetry.addData("FrontLeftMotorEncoder", frontLeft.getCurrentPosition());
             opMode.telemetry.addData("BackLeftMotorEncoder", backLeft.getCurrentPosition());
             opMode.telemetry.addData("FrontRightMotorEncoder", frontRight.getCurrentPosition());
             opMode.telemetry.addData("BackRightEncoder", backRight.getCurrentPosition());
-            opMode.telemetry.update();*/
+            opMode.telemetry.update();
         }
 
         frontLeft.setPower(0);
@@ -60,7 +60,13 @@ public class MechanumAutoDriver extends AutoDriver {
         backLeft.setPower(-inputPower);
         backRight.setPower(-inputPower);
 
-        while(backLeft.getCurrentPosition() >= -distance && opMode.opModeIsActive()){ }
+        while(backLeft.getCurrentPosition() >= -distance && opMode.opModeIsActive()){
+            opMode.telemetry.addData("FrontLeftMotorEncoder", frontLeft.getCurrentPosition());
+            opMode.telemetry.addData("BackLeftMotorEncoder", backLeft.getCurrentPosition());
+            opMode.telemetry.addData("FrontRightMotorEncoder", frontRight.getCurrentPosition());
+            opMode.telemetry.addData("BackRightEncoder", backRight.getCurrentPosition());
+            opMode.telemetry.update();
+        }
 
         frontLeft.setPower(0);
         frontRight.setPower(0);
